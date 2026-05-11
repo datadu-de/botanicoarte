@@ -1,0 +1,58 @@
+---
+import PreviewNav from '../../components/PreviewNav.astro';
+import PreviewHome from '../../components/PreviewHome.astro';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <title>Style Preview: Botanical – Arte Botanico</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pv-bg:            #F2EDE4;
+      --pv-bg-alt:        #E6DFCF;
+      --pv-accent:        #2C5F3F;
+      --pv-accent-text:   #ffffff;
+      --pv-heading:       #1A2E1F;
+      --pv-body-color:    #3D3020;
+      --pv-green:         #8B6914;
+      --pv-font-display:  'Cormorant Garamond', Georgia, serif;
+      --pv-font-body:     'Jost', system-ui, sans-serif;
+      --pv-radius:        4px;
+      --pv-card-radius:   4px;
+      --pv-hero-overlay:  linear-gradient(to bottom right, rgba(26,46,31,.82) 0%, rgba(44,95,63,.45) 100%);
+      --pv-badge-bg:      rgba(44,95,63,.22);
+      --pv-badge-color:   #A8D4B2;
+      --pv-badge-border:  rgba(44,95,63,.4);
+      --pv-header-bg:     rgba(242,237,228,.96);
+      --pv-border:        rgba(176,154,118,.3);
+      --pv-card-bg:       #EDE6D8;
+      --pv-icon-bg:       rgba(44,95,63,.12);
+      --pv-deco-1:        #8B6914;
+      --pv-deco-2:        #2C5F3F;
+      --pv-gyg-bg:        #1A2E1F;
+      --pv-gyg-color:     #1A2E1F;
+    }
+
+    body { background: var(--pv-bg); color: var(--pv-body-color); font-family: var(--pv-font-body); }
+
+    /* Botanical overrides – larger, more editorial display type */
+    :global(.pv-hero-headline) { font-size: clamp(2.6rem, 6vw, 4.2rem); font-style: italic; font-weight: 500; }
+    :global(.pv-section-title) { font-size: clamp(1.8rem, 4vw, 2.8rem); font-style: italic; font-weight: 500; }
+    :global(.pv-gyg-title)     { font-style: italic; }
+    :global(.pv-logo-name)     { font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+  <PreviewNav current="botanical" />
+  <PreviewHome />
+</body>
+</html>
