@@ -1,107 +1,215 @@
 ---
 import type { Locale, TranslationKeys } from '../i18n/translations';
 
-interface Props {
-  locale: Locale;
-  tr: TranslationKeys;
-}
-
+interface Props { locale: Locale; tr: TranslationKeys; }
 const { locale, tr } = Astro.props;
 
 type CourseKey = 'acrylic' | 'watercolor' | 'resin' | 'pottery' | 'private' | 'openStudio';
-const courseKeys: CourseKey[] = ['acrylic', 'watercolor', 'resin', 'pottery', 'private', 'openStudio'];
+const courseKeys: CourseKey[] = ['acrylic','watercolor','resin','pottery','private','openStudio'];
 
 const courseImages: Record<CourseKey, string> = {
-  acrylic: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=700&q=80',
-  watercolor: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=700&q=80',
-  resin: 'https://images.unsplash.com/photo-1584824486509-112e4181ff6b?w=700&q=80',
-  pottery: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=700&q=80',
-  private: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=700&q=80',
-  openStudio: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=700&q=80',
-};
-
-const courseColors: Record<CourseKey, string> = {
-  acrylic: 'var(--color-terracotta)',
-  watercolor: '#5B8FA8',
-  resin: 'var(--color-gold)',
-  pottery: 'var(--color-sage)',
-  private: 'var(--color-terracotta-dark)',
-  openStudio: 'var(--color-sage-dark)',
+  acrylic:    'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=800&q=80',
+  watercolor: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&q=80',
+  resin:      'https://images.unsplash.com/photo-1584824486509-112e4181ff6b?w=800&q=80',
+  pottery:    'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80',
+  private:    'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80',
+  openStudio: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80',
 };
 ---
 
-<!-- Page Hero -->
-<section class="py-20" style="background-color: var(--color-blush);">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <span class="section-subtitle block mb-4">{tr.courses.subtitle}</span>
-    <h1 class="section-title mb-6">{tr.courses.title}</h1>
-    <p class="opacity-70 text-lg max-w-2xl mx-auto">{tr.courses.intro}</p>
+<!-- Page header -->
+<div class="page-header">
+  <div class="container">
+    <div class="page-header-inner">
+      <span class="eyebrow">{tr.courses.subtitle}</span>
+      <h1 class="page-title">{tr.courses.title}</h1>
+    </div>
   </div>
-</section>
+</div>
 
 <!-- Course list -->
-<section class="py-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="space-y-20">
-      {courseKeys.map((key, i) => {
-        const course = tr.courses.items[key];
-        const isEven = i % 2 === 0;
-        return (
-          <div class={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${isEven ? '' : 'lg:[direction:rtl]'}`}>
-            <div class={isEven ? '' : 'lg:[direction:ltr]'}>
-              <div class="aspect-[4/3] rounded-sm overflow-hidden">
-                <img
-                  src={courseImages[key]}
-                  alt={course.title}
-                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                  loading="lazy"
-                />
-              </div>
+<section class="course-list">
+  <div class="container">
+    {courseKeys.map((key, i) => {
+      const c = tr.courses.items[key];
+      const num = String(i + 1).padStart(2, '0');
+      const isEven = i % 2 !== 0;
+      return (
+        <div class={`course-row ${isEven ? 'course-row-reverse' : ''}`}>
+          <div class="course-img-wrap">
+            <img src={courseImages[key]} alt={c.title} class="course-img" loading={i > 1 ? 'lazy' : 'eager'} />
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="course-num">{num}</span>
+              <span class="course-audience">{c.audience}</span>
             </div>
-            <div class={isEven ? '' : 'lg:[direction:ltr]'}>
-              <div class="inline-block text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full mb-4"
-                   style={`background-color: rgba(107,143,113,0.1); color: ${courseColors[key]};`}>
-                {course.audience}
-              </div>
-              <h2 class="text-3xl font-semibold mb-5" style={`font-family: var(--font-display); color: var(--color-espresso);`}>
-                {course.title}
-              </h2>
-              <p class="leading-relaxed mb-8 opacity-75">{course.description}</p>
-              <ul class="space-y-3 mb-8">
-                {course.details.map(detail => (
-                  <li class="flex items-center gap-3 text-sm">
-                    <span class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-                          style={`background-color: ${courseColors[key]}; color: white;`}>
-                      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
-                      </svg>
-                    </span>
-                    <span class="opacity-80">{detail}</span>
-                  </li>
-                ))}
-              </ul>
-              <div class="flex flex-wrap gap-3">
-                <a href={`/${locale}/contact/`} class="btn-primary">{tr.courses.bookNow}</a>
-                <a
-                  href="https://www.getyourguide.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn-outline"
-                >GetYourGuide</a>
-              </div>
+            <h2 class="course-title">{c.title}</h2>
+            <p class="course-desc">{c.description}</p>
+            <ul class="course-details">
+              {c.details.map(d => (
+                <li class="course-detail">
+                  <span class="detail-dot"></span>
+                  {d}
+                </li>
+              ))}
+            </ul>
+            <div class="course-actions">
+              <a href={`/${locale}/contact/`} class="btn-primary">{tr.courses.bookNow}</a>
+              <a href="https://www.getyourguide.com" target="_blank" rel="noopener noreferrer" class="text-link">
+                GetYourGuide ↗
+              </a>
             </div>
           </div>
-        );
-      })}
-    </div>
+        </div>
+      );
+    })}
   </div>
 </section>
 
 <!-- Bottom CTA -->
-<section class="py-16" style="background-color: var(--color-blush);">
-  <div class="max-w-3xl mx-auto px-4 text-center">
-    <h2 class="section-title mb-4">Not sure which course is right for you?</h2>
-    <p class="opacity-70 mb-8">Send us a message and we'll help you find the perfect fit.</p>
+<div class="cta-bar">
+  <div class="container cta-inner">
+    <p class="cta-text">{locale === 'de' ? 'Nicht sicher, welcher Kurs passt?' : 'Not sure which course is right for you?'}</p>
     <a href={`/${locale}/contact/`} class="btn-primary">{tr.nav.contact}</a>
   </div>
-</section>
+</div>
+
+<style>
+  .page-header {
+    border-bottom: 1px solid var(--color-border);
+    padding: 5rem 0 4rem;
+    background: var(--color-bg);
+  }
+  .page-header-inner { max-width: 640px; }
+  .page-title {
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    font-weight: 300;
+    margin-top: 1rem;
+    line-height: 1.08;
+  }
+
+  .course-list { padding: 0; }
+
+  .course-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .course-row-reverse { direction: rtl; }
+  .course-row-reverse > * { direction: ltr; }
+
+  .course-img-wrap { overflow: hidden; }
+  .course-img {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .course-row:hover .course-img { transform: scale(1.03); }
+
+  .course-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3.5rem;
+    border-left: 1px solid var(--color-border);
+  }
+  .course-row-reverse .course-body {
+    border-left: none;
+    border-right: 1px solid var(--color-border);
+  }
+
+  .course-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .course-num {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--color-muted);
+  }
+  .course-audience {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .course-title {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 300;
+    margin-bottom: 1rem;
+    line-height: 1.15;
+  }
+  .course-desc {
+    font-size: 0.88rem;
+    line-height: 1.85;
+    color: var(--color-muted);
+    margin-bottom: 1.75rem;
+    max-width: 46ch;
+  }
+
+  .course-details {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 2.25rem;
+  }
+  .course-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+  }
+  .detail-dot {
+    flex-shrink: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  .course-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    flex-wrap: wrap;
+  }
+
+  /* CTA bar */
+  .cta-bar {
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+    padding: 4rem 0;
+  }
+  .cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .cta-text {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 768px) {
+    .course-row { grid-template-columns: 1fr; direction: ltr; }
+    .course-row-reverse { direction: ltr; }
+    .course-img { min-height: 280px; }
+    .course-body { padding: 2.5rem 1.5rem; border-left: none !important; border-right: none !important; border-top: 1px solid var(--color-border); }
+    .cta-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
