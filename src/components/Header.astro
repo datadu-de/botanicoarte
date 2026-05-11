@@ -9,138 +9,207 @@ interface Props {
 
 const { locale, currentPath = '/' } = Astro.props;
 const tr = t(locale);
-
-const navLinks = [
-  { href: `/${locale}/`, label: tr.nav.home },
-  { href: `/${locale}/courses/`, label: tr.nav.courses },
-  { href: `/${locale}/gallery/`, label: tr.nav.gallery },
-  { href: `/${locale}/contact/`, label: tr.nav.contact },
-];
-
 const altLocale = locale === 'en' ? 'de' : 'en';
-const altLabel = locale === 'en' ? 'DE' : 'EN';
-const altHref = `/${altLocale}${currentPath === '/' ? '/' : currentPath}`;
+const altHref   = `/${altLocale}${currentPath === '/' ? '/' : currentPath}`;
+
+const nav = [
+  { href: `/${locale}/`,          label: tr.nav.home },
+  { href: `/${locale}/courses/`,  label: tr.nav.courses },
+  { href: `/${locale}/gallery/`,  label: tr.nav.gallery },
+  { href: `/${locale}/contact/`,  label: tr.nav.contact },
+];
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="site-header">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-18">
-      <!-- Logo -->
-      <a href={`/${locale}/`} class="flex items-center gap-3 group">
-        <div class="w-9 h-9 rounded-full flex items-center justify-center"
-             style="background-color: var(--color-terracotta);">
-          <span class="text-white font-display font-bold text-sm">AB</span>
-        </div>
-        <div class="leading-tight">
-          <div class="font-display font-semibold text-lg" style="color: var(--color-espresso); line-height:1.1;">Arte Botanico</div>
-          <div class="text-xs tracking-widest uppercase" style="color: var(--color-terracotta); line-height:1.1;">Mallorca</div>
-        </div>
+<header id="site-header">
+  <div class="container header-inner">
+
+    <!-- Logo -->
+    <a href={`/${locale}/`} class="logo" aria-label="Arte Botanico home">
+      Arte <em>Botanico</em>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="site-nav" aria-label="Main navigation">
+      {nav.map(link => (
+        <a href={link.href} class="nav-link">{link.label}</a>
+      ))}
+    </nav>
+
+    <!-- Right controls -->
+    <div class="header-right">
+      <a href={altHref} class="lang-switch" aria-label={`Switch to ${altLocale.toUpperCase()}`}>
+        {altLocale.toUpperCase()}
       </a>
-
-      <!-- Desktop nav -->
-      <nav class="hidden md:flex items-center gap-8">
-        {navLinks.map(link => (
-          <a
-            href={link.href}
-            class="nav-link text-sm font-medium tracking-wide transition-colors duration-200 relative"
-            style="color: var(--color-brown);"
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
-
-      <!-- Right side -->
-      <div class="flex items-center gap-3">
-        <!-- Language switcher -->
-        <a
-          href={altHref}
-          class="hidden sm:inline-flex items-center gap-1 text-xs font-bold tracking-widest px-2 py-1 rounded border transition-colors duration-200"
-          style="color: var(--color-terracotta); border-color: var(--color-terracotta-light);"
-        >
-          {altLabel}
-        </a>
-
-        <!-- Book CTA -->
-        <a href={`/${locale}/contact/`} class="btn-primary hidden sm:inline-block text-xs px-4 py-2">
-          {tr.nav.bookNow}
-        </a>
-
-        <!-- Mobile menu button -->
-        <button
-          id="mobile-menu-btn"
-          class="md:hidden p-2 rounded"
-          aria-label="Toggle menu"
-          style="color: var(--color-espresso);"
-        >
-          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
+      <a href={`/${locale}/contact/`} class="header-cta">
+        {tr.nav.bookNow}
+      </a>
+      <button id="mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="burger"></span>
+      </button>
     </div>
   </div>
 
   <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden md:hidden border-t" style="background-color: var(--color-sand); border-color: var(--color-blush);">
-    <div class="px-4 py-4 space-y-3">
-      {navLinks.map(link => (
-        <a
-          href={link.href}
-          class="block text-sm font-medium py-2"
-          style="color: var(--color-brown);"
-        >
-          {link.label}
-        </a>
+  <div id="mobile-menu" aria-hidden="true">
+    <div class="container mobile-inner">
+      {nav.map(link => (
+        <a href={link.href} class="mobile-link">{link.label}</a>
       ))}
-      <div class="pt-2 border-t flex items-center justify-between" style="border-color: var(--color-blush);">
-        <a href={altHref} class="text-xs font-bold tracking-widest" style="color: var(--color-terracotta);">
-          Switch to {altLabel}
-        </a>
-        <a href={`/${locale}/contact/`} class="btn-primary text-xs px-4 py-2">
-          {tr.nav.bookNow}
-        </a>
+      <div class="mobile-footer">
+        <a href={altHref} class="lang-switch">{altLocale.toUpperCase()}</a>
+        <a href={`/${locale}/contact/`} class="btn-primary">{tr.nav.bookNow}</a>
       </div>
     </div>
   </div>
 </header>
 
-<!-- Spacer -->
-<div class="h-18"></div>
+<!-- Push content below fixed header -->
+<div style="height: var(--header-h, 68px);"></div>
 
 <style>
   #site-header {
-    background-color: rgba(247, 240, 230, 0.95);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(232, 213, 196, 0.6);
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: rgba(249, 248, 245, 0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-border);
+    --header-h: 68px;
   }
 
-  .h-18 { height: 4.5rem; }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
 
-  .nav-link::after {
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+  .logo em { color: var(--color-accent); font-style: italic; }
+
+  .site-nav {
+    display: flex;
+    gap: 2.5rem;
+  }
+  .nav-link {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-link:hover { color: var(--color-ink); }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .lang-switch {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    color: var(--color-accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(168, 115, 95, 0.35);
+    padding-bottom: 0.1rem;
+  }
+
+  .header-cta {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.1rem;
+    transition: border-color 0.2s;
+  }
+  .header-cta:hover { border-color: var(--color-ink); }
+
+  /* Mobile toggle */
+  #mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .burger {
+    display: block;
+    width: 22px;
+    height: 1px;
+    background: var(--color-ink);
+    position: relative;
+  }
+  .burger::before, .burger::after {
     content: '';
     position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background-color: var(--color-terracotta);
-    transition: width 0.2s ease;
-  }
-
-  .nav-link:hover {
-    color: var(--color-terracotta) !important;
-  }
-
-  .nav-link:hover::after {
     width: 100%;
+    height: 1px;
+    background: var(--color-ink);
+    left: 0;
+    transition: transform 0.2s;
+  }
+  .burger::before { top: -6px; }
+  .burger::after  { top:  6px; }
+
+  /* Mobile menu */
+  #mobile-menu {
+    display: none;
+    border-top: 1px solid var(--color-border);
+  }
+  .mobile-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 1rem 2rem;
+  }
+  .mobile-link {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    text-decoration: none;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .mobile-link:hover { color: var(--color-ink); }
+  .mobile-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .site-nav, .header-cta { display: none; }
+    #mobile-toggle { display: block; }
+  }
+
+  @media (min-width: 769px) {
+    #mobile-menu { display: none !important; }
   }
 </style>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  btn?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
+  const toggle = document.getElementById('mobile-toggle');
+  const menu   = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const open = menu?.style.display === 'block';
+    if (menu) menu.style.display = open ? 'none' : 'block';
+    toggle.setAttribute('aria-expanded', String(!open));
   });
 </script>

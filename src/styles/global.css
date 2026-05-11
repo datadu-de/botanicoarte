@@ -1,93 +1,133 @@
 @import "tailwindcss";
 
 @theme {
-  --color-sand: #F7F0E6;
-  --color-sand-dark: #EDE0CE;
-  --color-terracotta: #C17A5A;
-  --color-terracotta-dark: #A3613F;
-  --color-terracotta-light: #D9A088;
-  --color-sage: #6B8F71;
-  --color-sage-dark: #527A58;
-  --color-sage-light: #9AB59F;
-  --color-espresso: #2D2016;
-  --color-brown: #4A3728;
-  --color-blush: #E8D5C4;
-  --color-gold: #B8914A;
+  --color-bg:       #F9F8F5;
+  --color-bg-alt:   #F0EDE7;
+  --color-ink:      #1C1C1A;
+  --color-muted:    #7A7870;
+  --color-accent:   #A8735F;
+  --color-accent-h: #8F5E4A;
+  --color-border:   rgba(28, 28, 26, 0.12);
 
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'Lato', system-ui, sans-serif;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Inter', system-ui, sans-serif;
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+  html { scroll-behavior: smooth; }
 
   body {
-    background-color: var(--color-sand);
-    color: var(--color-brown);
+    background-color: var(--color-bg);
+    color: var(--color-ink);
     font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    color: var(--color-espresso);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
   }
 }
 
 @layer components {
+  /* Eyebrow label above headings */
+  .eyebrow {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* Primary filled button */
   .btn-primary {
     display: inline-block;
-    background-color: var(--color-terracotta);
-    color: white;
-    padding: 0.75rem 2rem;
-    border-radius: 0.25rem;
     font-family: var(--font-body);
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    font-size: 0.875rem;
-    transition: background-color 0.2s ease;
     text-decoration: none;
+    padding: 0.85rem 2.2rem;
+    background: var(--color-ink);
+    color: var(--color-bg);
+    transition: background 0.2s ease;
   }
+  .btn-primary:hover { background: #3A3A36; }
 
-  .btn-primary:hover {
-    background-color: var(--color-terracotta-dark);
-  }
-
+  /* Outline button */
   .btn-outline {
     display: inline-block;
-    border: 2px solid var(--color-terracotta);
-    color: var(--color-terracotta);
-    padding: 0.75rem 2rem;
-    border-radius: 0.25rem;
     font-family: var(--font-body);
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    font-size: 0.875rem;
-    transition: all 0.2s ease;
     text-decoration: none;
+    padding: 0.85rem 2.2rem;
+    border: 1px solid var(--color-ink);
+    color: var(--color-ink);
+    transition: all 0.2s ease;
   }
+  .btn-outline:hover { background: var(--color-ink); color: var(--color-bg); }
 
-  .btn-outline:hover {
-    background-color: var(--color-terracotta);
-    color: white;
-  }
-
-  .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: var(--color-espresso);
-    line-height: 1.2;
-  }
-
-  .section-subtitle {
-    color: var(--color-terracotta);
+  /* Ghost button (for use on dark/image backgrounds) */
+  .btn-ghost {
+    display: inline-block;
     font-family: var(--font-body);
-    font-size: 0.875rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.85rem 2.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.9);
+    transition: background 0.2s ease;
   }
+  .btn-ghost:hover { background: rgba(255, 255, 255, 0.1); }
+
+  /* Accent text link with underline */
+  .text-link {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.1rem;
+    transition: border-color 0.2s;
+  }
+  .text-link:hover { border-color: var(--color-ink); }
+
+  /* Accent coloured link */
+  .text-link-accent {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-accent);
+    padding-bottom: 0.1rem;
+  }
+
+  /* Section wrapper */
+  .section { padding: 7rem 0; }
+  .section-alt { padding: 7rem 0; background-color: var(--color-bg-alt); }
+
+  /* Max-width container */
+  .container     { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+  .container-md  { max-width: 900px;  margin: 0 auto; padding: 0 2rem; }
+
+  /* Thin divider */
+  .divider { border: none; border-top: 1px solid var(--color-border); }
 }

@@ -1,55 +1,43 @@
 ---
 import type { Locale, TranslationKeys } from '../i18n/translations';
 
-interface Props {
-  locale: Locale;
-  tr: TranslationKeys;
-}
-
+interface Props { locale: Locale; tr: TranslationKeys; }
 const { locale, tr } = Astro.props;
 
 const images = [
-  { src: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&q=80', alt: 'Watercolor paints palette', category: 'Watercolor' },
-  { src: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80', alt: 'Painting in progress', category: 'Acrylic' },
-  { src: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80', alt: 'Pottery hands shaping clay', category: 'Pottery' },
-  { src: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80', alt: 'Art supplies and brushes', category: 'Studio' },
-  { src: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=800&q=80', alt: 'Canvas painting close up', category: 'Acrylic' },
-  { src: 'https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800&q=80', alt: 'Artist at work', category: 'Studio' },
-  { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80', alt: 'Mediterranean landscape', category: 'Mallorca' },
-  { src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80', alt: 'Mallorca coastline', category: 'Mallorca' },
-  { src: 'https://images.unsplash.com/photo-1584824486509-112e4181ff6b?w=800&q=80', alt: 'Resin art workshop', category: 'Resin' },
-  { src: 'https://images.unsplash.com/photo-1510832842230-87253f48d74f?w=800&q=80', alt: 'Watercolor botanical', category: 'Watercolor' },
-  { src: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=800&q=80', alt: 'Ceramics pieces drying', category: 'Pottery' },
-  { src: 'https://images.unsplash.com/photo-1572635148818-ef6fd45eb394?w=800&q=80', alt: 'Studio light and brushes', category: 'Studio' },
+  { src: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=900&q=80',  alt: 'Watercolor paints palette',   cat: 'Watercolor' },
+  { src: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=900&q=80',  alt: 'Painting in progress',         cat: 'Acrylic' },
+  { src: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=900&q=80',  alt: 'Pottery hands',                cat: 'Pottery' },
+  { src: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=900&q=80',  alt: 'Art supplies and brushes',     cat: 'Studio' },
+  { src: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=900&q=80',  alt: 'Canvas painting',              cat: 'Acrylic' },
+  { src: 'https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=900&q=80',     alt: 'Artist at work',               cat: 'Studio' },
+  { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80',  alt: 'Mediterranean landscape',      cat: 'Mallorca' },
+  { src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80',     alt: 'Mallorca coastline',           cat: 'Mallorca' },
+  { src: 'https://images.unsplash.com/photo-1584824486509-112e4181ff6b?w=900&q=80',  alt: 'Resin art',                    cat: 'Resin' },
+  { src: 'https://images.unsplash.com/photo-1510832842230-87253f48d74f?w=900&q=80',  alt: 'Watercolor botanical',         cat: 'Watercolor' },
+  { src: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=900&q=80',  alt: 'Ceramics drying',              cat: 'Pottery' },
+  { src: 'https://images.unsplash.com/photo-1572635148818-ef6fd45eb394?w=900&q=80',  alt: 'Studio with brushes',          cat: 'Studio' },
 ];
 ---
 
-<!-- Page Hero -->
-<section class="py-20" style="background-color: var(--color-blush);">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <span class="section-subtitle block mb-4">{tr.gallery.subtitle}</span>
-    <h1 class="section-title mb-6">{tr.gallery.title}</h1>
-    <p class="opacity-70 text-lg max-w-2xl mx-auto">{tr.gallery.intro}</p>
+<!-- Page header -->
+<div class="page-header">
+  <div class="container">
+    <span class="eyebrow">{tr.gallery.subtitle}</span>
+    <h1 class="page-title">{tr.gallery.title}</h1>
+    <p class="page-intro">{tr.gallery.intro}</p>
   </div>
-</section>
+</div>
 
-<!-- Gallery grid -->
-<section class="py-16">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+<!-- Gallery -->
+<section class="gallery-section">
+  <div class="container">
+    <div class="masonry">
       {images.map(img => (
-        <div class="break-inside-avoid overflow-hidden rounded-sm group relative">
-          <img
-            src={img.src}
-            alt={img.alt}
-            class="w-full object-cover group-hover:scale-105 transition-transform duration-500"
-            loading="lazy"
-          />
-          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
-               style="background: linear-gradient(to top, rgba(45,32,22,0.6) 0%, transparent 60%);">
-            <span class="text-xs font-bold tracking-widest uppercase text-white px-4 pb-3">
-              {img.category}
-            </span>
+        <div class="masonry-item">
+          <img src={img.src} alt={img.alt} class="masonry-img" loading="lazy" />
+          <div class="masonry-overlay">
+            <span class="masonry-cat">{img.cat}</span>
           </div>
         </div>
       ))}
@@ -58,13 +46,103 @@ const images = [
 </section>
 
 <!-- CTA -->
-<section class="py-16" style="background-color: var(--color-blush);">
-  <div class="max-w-2xl mx-auto px-4 text-center">
-    <h2 class="section-title mb-4">Ready to Create Your Own?</h2>
-    <p class="opacity-70 mb-8">Join one of our workshops and take home a piece of Mallorca.</p>
-    <div class="flex flex-wrap justify-center gap-4">
+<div class="cta-bar">
+  <div class="container cta-inner">
+    <p class="cta-text">
+      {locale === 'de'
+        ? 'Bereit, dein eigenes zu schaffen?'
+        : 'Ready to create your own?'}
+    </p>
+    <div class="cta-actions">
       <a href={`/${locale}/courses/`} class="btn-primary">{tr.courses.allCourses}</a>
       <a href={`/${locale}/contact/`} class="btn-outline">{tr.nav.contact}</a>
     </div>
   </div>
-</section>
+</div>
+
+<style>
+  .page-header {
+    padding: 5rem 0 4rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .page-title {
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    font-weight: 300;
+    margin: 0.75rem 0 1rem;
+    line-height: 1.08;
+  }
+  .page-intro {
+    font-size: 0.88rem;
+    line-height: 1.85;
+    color: var(--color-muted);
+    max-width: 56ch;
+  }
+
+  .gallery-section { padding: 4rem 0; }
+
+  .masonry {
+    columns: 4;
+    column-gap: 3px;
+  }
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 3px;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    cursor: pointer;
+  }
+  .masonry-img {
+    width: 100%;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .masonry-item:hover .masonry-img { transform: scale(1.04); }
+
+  .masonry-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28,28,26,0.55) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+  }
+  .masonry-item:hover .masonry-overlay { opacity: 1; }
+  .masonry-cat {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .cta-bar {
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+    padding: 4rem 0;
+  }
+  .cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .cta-text {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--color-ink);
+  }
+  .cta-actions { display: flex; gap: 1rem; }
+
+  @media (max-width: 900px)  { .masonry { columns: 3; } }
+  @media (max-width: 640px)  { .masonry { columns: 2; } }
+  @media (max-width: 480px)  {
+    .masonry { columns: 1; }
+    .cta-inner { flex-direction: column; align-items: flex-start; }
+    .cta-actions { flex-wrap: wrap; }
+  }
+</style>
