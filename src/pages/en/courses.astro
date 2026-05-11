@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CoursesPage from '../../components/CoursesPage.astro';
+import { t } from '../../i18n/translations';
+
+const locale = 'en';
+const tr = t(locale);
+---
+
+<Layout
+  title={tr.meta.coursesTitle}
+  description={tr.meta.coursesDescription}
+  locale={locale}
+  currentPath="/courses/"
+>
+  <CoursesPage locale={locale} tr={tr} />
+</Layout>

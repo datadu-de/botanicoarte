@@ -1,0 +1,16 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactPage from '../../components/ContactPage.astro';
+import { t } from '../../i18n/translations';
+
+const locale = 'en';
+const tr = t(locale);
+---
+
+<Layout
+  title={tr.meta.contactTitle}
+  locale={locale}
+  currentPath="/contact/"
+>
+  <ContactPage locale={locale} tr={tr} />
+</Layout>

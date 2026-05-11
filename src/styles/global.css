@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sand: #F7F0E6;
+  --color-sand-dark: #EDE0CE;
+  --color-terracotta: #C17A5A;
+  --color-terracotta-dark: #A3613F;
+  --color-terracotta-light: #D9A088;
+  --color-sage: #6B8F71;
+  --color-sage-dark: #527A58;
+  --color-sage-light: #9AB59F;
+  --color-espresso: #2D2016;
+  --color-brown: #4A3728;
+  --color-blush: #E8D5C4;
+  --color-gold: #B8914A;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Lato', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-sand);
+    color: var(--color-brown);
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-espresso);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    display: inline-block;
+    background-color: var(--color-terracotta);
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-terracotta-dark);
+  }
+
+  .btn-outline {
+    display: inline-block;
+    border: 2px solid var(--color-terracotta);
+    color: var(--color-terracotta);
+    padding: 0.75rem 2rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .btn-outline:hover {
+    background-color: var(--color-terracotta);
+    color: white;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--color-espresso);
+    line-height: 1.2;
+  }
+
+  .section-subtitle {
+    color: var(--color-terracotta);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+}

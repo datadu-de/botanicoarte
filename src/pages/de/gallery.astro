@@ -1,0 +1,16 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import GalleryPage from '../../components/GalleryPage.astro';
+import { t } from '../../i18n/translations';
+
+const locale = 'de';
+const tr = t(locale);
+---
+
+<Layout
+  title={tr.meta.galleryTitle}
+  locale={locale}
+  currentPath="/gallery/"
+>
+  <GalleryPage locale={locale} tr={tr} />
+</Layout>

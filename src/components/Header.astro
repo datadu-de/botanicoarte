@@ -1,0 +1,146 @@
+---
+import type { Locale } from '../i18n/translations';
+import { t } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+  currentPath?: string;
+}
+
+const { locale, currentPath = '/' } = Astro.props;
+const tr = t(locale);
+
+const navLinks = [
+  { href: `/${locale}/`, label: tr.nav.home },
+  { href: `/${locale}/courses/`, label: tr.nav.courses },
+  { href: `/${locale}/gallery/`, label: tr.nav.gallery },
+  { href: `/${locale}/contact/`, label: tr.nav.contact },
+];
+
+const altLocale = locale === 'en' ? 'de' : 'en';
+const altLabel = locale === 'en' ? 'DE' : 'EN';
+const altHref = `/${altLocale}${currentPath === '/' ? '/' : currentPath}`;
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="site-header">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-18">
+      <!-- Logo -->
+      <a href={`/${locale}/`} class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-full flex items-center justify-center"
+             style="background-color: var(--color-terracotta);">
+          <span class="text-white font-display font-bold text-sm">AB</span>
+        </div>
+        <div class="leading-tight">
+          <div class="font-display font-semibold text-lg" style="color: var(--color-espresso); line-height:1.1;">Arte Botanico</div>
+          <div class="text-xs tracking-widest uppercase" style="color: var(--color-terracotta); line-height:1.1;">Mallorca</div>
+        </div>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        {navLinks.map(link => (
+          <a
+            href={link.href}
+            class="nav-link text-sm font-medium tracking-wide transition-colors duration-200 relative"
+            style="color: var(--color-brown);"
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Right side -->
+      <div class="flex items-center gap-3">
+        <!-- Language switcher -->
+        <a
+          href={altHref}
+          class="hidden sm:inline-flex items-center gap-1 text-xs font-bold tracking-widest px-2 py-1 rounded border transition-colors duration-200"
+          style="color: var(--color-terracotta); border-color: var(--color-terracotta-light);"
+        >
+          {altLabel}
+        </a>
+
+        <!-- Book CTA -->
+        <a href={`/${locale}/contact/`} class="btn-primary hidden sm:inline-block text-xs px-4 py-2">
+          {tr.nav.bookNow}
+        </a>
+
+        <!-- Mobile menu button -->
+        <button
+          id="mobile-menu-btn"
+          class="md:hidden p-2 rounded"
+          aria-label="Toggle menu"
+          style="color: var(--color-espresso);"
+        >
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-t" style="background-color: var(--color-sand); border-color: var(--color-blush);">
+    <div class="px-4 py-4 space-y-3">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class="block text-sm font-medium py-2"
+          style="color: var(--color-brown);"
+        >
+          {link.label}
+        </a>
+      ))}
+      <div class="pt-2 border-t flex items-center justify-between" style="border-color: var(--color-blush);">
+        <a href={altHref} class="text-xs font-bold tracking-widest" style="color: var(--color-terracotta);">
+          Switch to {altLabel}
+        </a>
+        <a href={`/${locale}/contact/`} class="btn-primary text-xs px-4 py-2">
+          {tr.nav.bookNow}
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Spacer -->
+<div class="h-18"></div>
+
+<style>
+  #site-header {
+    background-color: rgba(247, 240, 230, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(232, 213, 196, 0.6);
+  }
+
+  .h-18 { height: 4.5rem; }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--color-terracotta);
+    transition: width 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--color-terracotta) !important;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+</script>
