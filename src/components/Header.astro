@@ -74,7 +74,12 @@ const nav = [
     background: rgba(249, 248, 245, 0.96);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 0 0 rgba(28,28,26,0);
+    transition: box-shadow 0.3s ease;
     --header-h: 68px;
+  }
+  #site-header.is-scrolled {
+    box-shadow: 0 2px 24px rgba(28,28,26,0.07);
   }
 
   .header-inner {
@@ -212,4 +217,9 @@ const nav = [
     if (menu) menu.style.display = open ? 'none' : 'block';
     toggle.setAttribute('aria-expanded', String(!open));
   });
+
+  window.addEventListener('scroll', () => {
+    document.getElementById('site-header')
+      ?.classList.toggle('is-scrolled', window.scrollY > 10);
+  }, { passive: true });
 </script>

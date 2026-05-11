@@ -18,17 +18,17 @@ const galleryImages = [
 <!-- ────────────────── HERO ────────────────── -->
 <section class="hero">
   <div class="hero-text">
-    <div class="hero-kicker">
+    <div class="hero-kicker hero-enter" style="--enter-delay:0.05s">
       <span class="kicker-line"></span>
       <span class="eyebrow">Art Studio · Mallorca</span>
     </div>
-    <h1 class="hero-headline">
+    <h1 class="hero-headline hero-enter" style="--enter-delay:0.18s">
       {tr.hero.headline.split(' ').slice(0,2).join(' ')}<br>
       <em>{tr.hero.headline.split(' ').slice(2,4).join(' ')}</em><br>
       {tr.hero.headline.split(' ').slice(4).join(' ')}
     </h1>
-    <p class="hero-sub">{tr.hero.subheadline}</p>
-    <div class="hero-actions">
+    <p class="hero-sub hero-enter" style="--enter-delay:0.35s">{tr.hero.subheadline}</p>
+    <div class="hero-actions hero-enter" style="--enter-delay:0.5s">
       <a href={`/${locale}/courses/`} class="btn-primary">{tr.hero.cta}</a>
       <a href="https://www.getyourguide.com" target="_blank" rel="noopener noreferrer" class="btn-outline">
         {tr.hero.ctaSecondary}
@@ -40,6 +40,7 @@ const galleryImages = [
       src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=1200&q=85"
       alt="Art studio Mallorca"
       class="hero-img"
+      id="hero-parallax"
     />
     <span class="hero-caption">Arte Botanico · Mallorca</span>
   </div>
@@ -48,7 +49,7 @@ const galleryImages = [
 <!-- ────────────────── ABOUT ────────────────── -->
 <section class="about section">
   <div class="container about-inner">
-    <div class="about-sidebar">
+    <div class="about-sidebar" data-reveal>
       <span class="eyebrow">{tr.about.subtitle}</span>
       <div class="about-big-number">01</div>
       <div class="about-stats">
@@ -66,7 +67,7 @@ const galleryImages = [
         </div>
       </div>
     </div>
-    <div class="about-content">
+    <div class="about-content" data-reveal data-delay="1">
       <img
         src="https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=900&q=80"
         alt="Artist at work"
@@ -85,7 +86,7 @@ const galleryImages = [
 <!-- ────────────────── COURSES ────────────────── -->
 <section class="courses section-alt">
   <div class="container">
-    <div class="courses-header">
+    <div class="courses-header" data-reveal>
       <div>
         <span class="eyebrow" style="margin-bottom:.75rem;">{tr.courses.subtitle}</span>
         <h2 class="section-title">{tr.courses.title}</h2>
@@ -97,7 +98,7 @@ const galleryImages = [
         const c = tr.courses.items[key];
         const num = String(i + 1).padStart(2, '0');
         return (
-          <div class="course-item">
+          <div class="course-item" data-reveal data-delay={String(i)}>
             <div class="course-num">{num}</div>
             <span class="course-audience">{c.audience}</span>
             <h3 class="course-title">{c.title}</h3>
@@ -113,7 +114,7 @@ const galleryImages = [
 <!-- ────────────────── GYG ────────────────── -->
 <section class="gyg section">
   <div class="container gyg-inner">
-    <div class="gyg-text">
+    <div class="gyg-text" data-reveal>
       <div class="gyg-label">
         <span class="gyg-label-line"></span>
         <span class="eyebrow">{tr.getyourguide.badge}</span>
@@ -124,7 +125,7 @@ const galleryImages = [
         {tr.getyourguide.cta} ↗
       </a>
     </div>
-    <div class="gyg-image">
+    <div class="gyg-image" data-reveal data-delay="1">
       <img
         src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80"
         alt="Art supplies"
@@ -137,7 +138,7 @@ const galleryImages = [
 <!-- ────────────────── GALLERY TEASER ────────────────── -->
 <section class="gallery-teaser section-alt">
   <div class="container">
-    <div class="gallery-header">
+    <div class="gallery-header" data-reveal>
       <div>
         <span class="eyebrow" style="margin-bottom:.6rem;">{tr.gallery.subtitle}</span>
         <h2 class="section-title">{tr.gallery.title}</h2>
@@ -146,7 +147,7 @@ const galleryImages = [
     </div>
     <div class="gallery-grid">
       {galleryImages.map((img, i) => (
-        <div class={`gallery-item${i === 0 ? ' gallery-featured' : ''}`}>
+        <div class={`gallery-item${i === 0 ? ' gallery-featured' : ''}`} data-reveal data-delay={String(i)}>
           <img src={img.src} alt={img.alt} class="gallery-img" loading="lazy" />
         </div>
       ))}
@@ -155,7 +156,36 @@ const galleryImages = [
 </section>
 
 <style>
-  /* ── Hero ── */
+  /* ── Hero entrance animations ─────────────────── */
+  .hero-enter {
+    opacity: 0;
+    transform: translateY(22px);
+    animation: heroEnter 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--enter-delay, 0s);
+  }
+  @keyframes heroEnter {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Scroll reveal ────────────────────────────── */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Stagger delays for siblings with data-delay */
+  [data-delay="1"] { transition-delay: 0.08s; }
+  [data-delay="2"] { transition-delay: 0.16s; }
+  [data-delay="3"] { transition-delay: 0.24s; }
+  [data-delay="4"] { transition-delay: 0.32s; }
+  [data-delay="5"] { transition-delay: 0.40s; }
+
+  /* ── Hero ──────────────────────────────────────── */
   .hero {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -206,6 +236,10 @@ const galleryImages = [
     height: 100%;
     object-fit: cover;
     display: block;
+    /* Slightly oversized to leave room for parallax travel */
+    transform: scale(1.12);
+    transform-origin: center top;
+    will-change: transform;
   }
   .hero-caption {
     position: absolute;
@@ -215,9 +249,10 @@ const galleryImages = [
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(255,255,255,0.55);
+    z-index: 1;
   }
 
-  /* ── About ── */
+  /* ── About ─────────────────────────────────────── */
   .about { border-top: 1px solid var(--color-border); }
   .about-inner {
     display: grid;
@@ -257,7 +292,6 @@ const galleryImages = [
     color: var(--color-muted);
     margin-top: 0.2rem;
   }
-
   .about-img {
     width: 100%;
     aspect-ratio: 3/2;
@@ -276,7 +310,7 @@ const galleryImages = [
     color: var(--color-muted);
   }
 
-  /* ── Courses ── */
+  /* ── Courses ───────────────────────────────────── */
   .courses-header {
     display: flex;
     align-items: flex-end;
@@ -302,7 +336,9 @@ const galleryImages = [
     padding: 2.5rem 2rem;
     border-right: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
-    transition: background 0.2s;
+    transition: background 0.3s ease,
+                opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .course-item:hover { background: var(--color-bg); }
   .course-num {
@@ -336,7 +372,7 @@ const galleryImages = [
     margin-bottom: 1.5rem;
   }
 
-  /* ── GYG ── */
+  /* ── GYG ────────────────────────────────────────── */
   .gyg-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -369,7 +405,7 @@ const galleryImages = [
     display: block;
   }
 
-  /* ── Gallery ── */
+  /* ── Gallery teaser ─────────────────────────────── */
   .gallery-header {
     display: flex;
     align-items: flex-end;
@@ -389,11 +425,11 @@ const galleryImages = [
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s ease;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .gallery-item:hover .gallery-img { transform: scale(1.04); }
+  .gallery-item:hover .gallery-img { transform: scale(1.05); }
 
-  /* ── Responsive ── */
+  /* ── Responsive ─────────────────────────────────── */
   @media (max-width: 1024px) {
     .hero { grid-template-columns: 1fr; min-height: auto; }
     .hero-text { border-right: none; border-bottom: 1px solid var(--color-border); padding: 4rem 2rem; }
@@ -404,7 +440,6 @@ const galleryImages = [
     .about-stats { flex-direction: row; gap: 2rem; margin-top: 0; }
     .gyg-inner { grid-template-columns: 1fr; gap: 3rem; }
   }
-
   @media (max-width: 768px) {
     .course-grid { grid-template-columns: 1fr 1fr; }
     .courses-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
@@ -412,9 +447,53 @@ const galleryImages = [
     .gallery-featured { grid-column: span 2; grid-row: span 1; }
     .gallery-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
   }
-
   @media (max-width: 480px) {
     .course-grid { grid-template-columns: 1fr; }
     .hero-text { padding: 3rem 1.5rem; }
   }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-enter,
+    [data-reveal] {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
 </style>
+
+<script>
+  // ── Parallax: hero right-panel image ──────────────────────────────
+  const heroParallax = document.getElementById('hero-parallax') as HTMLImageElement | null;
+  if (heroParallax) {
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = window.scrollY * 0.28;
+          heroParallax.style.transform = `scale(1.12) translateY(${y}px)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // ── Scroll reveal: IntersectionObserver ──────────────────────────
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+  );
+
+  document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+</script>
