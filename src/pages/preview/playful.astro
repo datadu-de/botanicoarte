@@ -1,0 +1,58 @@
+---
+import PreviewNav from '../../components/PreviewNav.astro';
+import PreviewHome from '../../components/PreviewHome.astro';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <title>Style Preview: Playful – Arte Botanico</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pv-bg:            #FFF9F5;
+      --pv-bg-alt:        #FFF0E6;
+      --pv-accent:        #E84420;
+      --pv-accent-text:   #ffffff;
+      --pv-heading:       #1A1010;
+      --pv-body-color:    #2E2020;
+      --pv-green:         #1E8C6A;
+      --pv-font-display:  'DM Serif Display', Georgia, serif;
+      --pv-font-body:     'DM Sans', system-ui, sans-serif;
+      --pv-radius:        6px;
+      --pv-card-radius:   14px;
+      --pv-hero-overlay:  linear-gradient(135deg, rgba(232,68,32,.68) 0%, rgba(26,16,16,.48) 70%, rgba(30,140,106,.18) 100%);
+      --pv-badge-bg:      rgba(232,68,32,.18);
+      --pv-badge-color:   #FFD0C4;
+      --pv-badge-border:  rgba(232,68,32,.38);
+      --pv-header-bg:     rgba(255,249,245,.96);
+      --pv-border:        #FFD5C2;
+      --pv-card-bg:       #FFFFFF;
+      --pv-icon-bg:       #FFE4D8;
+      --pv-deco-1:        #FFBFAA;
+      --pv-deco-2:        #B8E8D8;
+      --pv-gyg-bg:        #E84420;
+      --pv-gyg-color:     #E84420;
+    }
+
+    body { background: var(--pv-bg); color: var(--pv-body-color); font-family: var(--pv-font-body); }
+
+    :global(.pv-hero-headline) { font-style: italic; letter-spacing: -0.01em; }
+    :global(.pv-section-title) { font-style: italic; }
+    :global(.pv-gyg-title)     { font-style: italic; }
+    :global(.pv-stat-val)      { font-size: 2.4rem; }
+    :global(.pv-course-card)   { border-color: #FFD5C2; }
+  </style>
+</head>
+<body>
+  <PreviewNav current="playful" />
+  <PreviewHome />
+</body>
+</html>
